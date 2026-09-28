@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/datasets.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">首页</a></li>
+                        <li><a href="upload.html" class="nav-link">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link active">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                        <li><a href="login.html" class="nav-link">登录</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <div class="breadcrumb">首页 <i class="fas fa-angle-right"></i> 数据集市场</div>
+            <h1>数据集市场</h1>
+            <div class="search-wrap">
+                <div class="search-bar">
+                    <input id="searchInput" type="text" placeholder="输入关键词、标签或场景（支持 AND/OR/NOT），回车搜索…" autocomplete="off">
+                    <button id="searchBtn" class="btn btn-primary"><i class="fas fa-search"></i> 搜索</button>
+                </div>
+                <div id="suggestions" class="search-suggestions"></div>
+                <div class="search-meta">
+                    <div class="chips" id="historyChips"></div>
+                    <div class="chips" id="hotChips"></div>
+                </div>
+            </div>
+            <div class="recommend-rows">
+                <div class="recommend-block">
+                    <div class="block-title">猜你喜欢</div>
+                    <div id="likeRow" class="recommend-row"></div>
+                </div>
+                <div class="recommend-block">
+                    <div class="block-title">新手入门推荐</div>
+                    <div id="newbieRow" class="recommend-row"></div>
+                </div>
+            </div>
+            <div class="result-count" id="resultCount"></div>
+        </div>
+    </section>
+
+    <section class="market">
+        <div class="container market-grid">
+            <aside class="filters">
+                <div class="filter-group">
+                    <h4>场景分类</h4>
+                    <label><input type="radio" name="scene" value="all" checked> 全部场景 <span class="count" id="scene_all"></span></label>
+                    <label><input type="radio" name="scene" value="工业制造"> 工业制造 <span class="count" id="scene_industry"></span></label>
+                    <label><input type="radio" name="scene" value="医疗健康"> 医疗健康 <span class="count" id="scene_med"></span></label>
+                    <div class="sub-options" id="medSub">
+                        <label><input type="checkbox" name="sceneSub" value="病历"> 病历</label>
+                        <label><input type="checkbox" name="sceneSub" value="检验报告"> 检验报告</label>
+                        <label><input type="checkbox" name="sceneSub" value="医学影像"> 医学影像</label>
+                    </div>
+                    <label><input type="radio" name="scene" value="智能交通"> 智能交通 <span class="count" id="scene_traffic"></span></label>
+                    <label><input type="radio" name="scene" value="金融科技"> 金融科技 <span class="count" id="scene_fin"></span></label>
+                    <label><input type="radio" name="scene" value="环境监测"> 环境监测 <span class="count" id="scene_env"></span></label>
+                    <label><input type="radio" name="scene" value="农业科技"> 农业科技 <span class="count" id="scene_agri"></span></label>
+                    <label><input type="radio" name="scene" value="能源电力"> 能源电力 <span class="count" id="scene_energy"></span></label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>缺失率范围</h4>
+                    <div class="range">
+                        <input id="missingRange" type="range" min="0" max="50" step="1" value="50">
+                        <div class="range-label">0% - <span id="missingValue">50%</span></div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>数据规模</h4>
+                    <label><input type="radio" name="fsize" value="all" checked> 全部</label>
+                    <label><input type="radio" name="fsize" value="small"> 小型 (0-1MB)</label>
+                    <label><input type="radio" name="fsize" value="medium"> 中型 (1-50MB)</label>
+                    <label><input type="radio" name="fsize" value="large"> 大型 (50MB+)</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>样本数量</h4>
+                    <label><input type="radio" name="samples" value="all" checked> 全部</label>
+                    <label><input type="radio" name="samples" value=">10000"> 10000以上</label>
+                    <label><input type="radio" name="samples" value="1000-10000"> 1000-10000</label>
+                    <label><input type="radio" name="samples" value="<1000"> 1000以下</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>特征维度</h4>
+                    <label><input type="radio" name="dims" value="all" checked> 全部</label>
+                    <label><input type="radio" name="dims" value="low"> 低维 (<10列)</label>
+                    <label><input type="radio" name="dims" value="mid"> 中维 (10-50列)</label>
+                    <label><input type="radio" name="dims" value="high"> 高维 (50列+)</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>质量评级</h4>
+                    <div class="stars" id="starFilter">
+                        <label><input type="radio" name="stars" value="all" checked> 全部</label>
+                        <label><input type="radio" name="stars" value="5"> ⭐⭐⭐⭐⭐</label>
+                        <label><input type="radio" name="stars" value="4"> ⭐⭐⭐⭐ 以上</label>
+                        <label><input type="radio" name="stars" value="3"> ⭐⭐⭐ 以上</label>
+                    </div>
+                    <label><input type="checkbox" id="certOnly"> 官方认证</label>
+                    <label><input type="checkbox" id="communityPick"> 社区推荐</label>
+                    <label><input type="checkbox" id="recentOnly"> 最新上传（7天内）</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>文件格式</h4>
+                    <div class="chips chips-select" id="fmtChips">
+                        <label><input type="checkbox" value="CSV"> CSV</label>
+                        <label><input type="checkbox" value="Excel"> Excel</label>
+                        <label><input type="checkbox" value="JSON"> JSON</label>
+                        <label><input type="checkbox" value="Parquet"> Parquet</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>缺失率</h4>
+                    <label><input type="radio" name="missing" value="all" checked> 全部</label>
+                    <label><input type="radio" name="missing" value="light"> 轻度（0-20%）</label>
+                    <label><input type="radio" name="missing" value="medium"> 中度（20-40%）</label>
+                    <label><input type="radio" name="missing" value="heavy"> 重度（40%以上）</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>排序方式</h4>
+                    <select id="sortSelect">
+                        <option value="latest">最新上传</option>
+                        <option value="downloads">下载最多</option>
+                        <option value="rating">评分最高</option>
+                    </select>
+                </div>
+            </aside>
+
+            <main class="list-area">
+                <div id="datasetGrid" class="dataset-grid"></div>
+                <div id="loadingMore" class="loading-more"><i class="fas fa-spinner fa-spin"></i> 加载中…</div>
+                <div id="paginator" class="paginator">
+                    <button id="firstPage">« 首页</button>
+                    <button id="prevPage">‹ 上一页</button>
+                    <span id="pageInfo">第 1 / 1 页</span>
+                    <button id="nextPage">下一页 ›</button>
+                    <button id="lastPage">末页 »</button>
+                    <span>跳转</span><input id="gotoInput" placeholder="页码"><button id="gotoBtn">GO</button>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 灵境织算. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/datasets.js"></script>
+</body>
+</html>
+
+

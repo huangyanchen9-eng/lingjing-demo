@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/upload.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">首页</a></li>
+                        <li><a href="upload.html" class="nav-link active">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                        <li><a href="login.html" class="nav-link">登录</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>数据上传与填补</h1>
+                <p>上传您的数据文件，选择模型参数，开始智能数据填补</p>
+            </div>
+
+            <div class="upload-container">
+                <!-- File Upload Section -->
+                <div class="upload-section">
+                    <h2><i class="fas fa-cloud-upload-alt"></i> 文件上传</h2>
+                    <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="选择或拖放数据文件">
+                        <div class="upload-content">
+                            <i class="fas fa-file-upload"></i>
+                            <h3>拖拽文件到此处或点击上传</h3>
+                            <p>支持 CSV、Excel 格式，文件大小不超过 10MB</p>
+                            <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" hidden>
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-upload"></i>
+                                选择文件
+                            </button>
+                        </div>
+                    </div>
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <div class="file-details">
+                            <i class="fas fa-file-csv"></i>
+                            <div class="file-text">
+                                <h4 id="fileName">data.csv</h4>
+                                <p id="fileSize">2.5 MB</p>
+                            </div>
+                            <button class="btn btn-danger" onclick="removeFile()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="file-preview" id="filePreview" style="display: none;">
+                        <h4 style="margin-bottom: 0.5rem; color:#1e293b;">文件预览（前5行）</h4>
+                        <div class="table-wrapper">
+                            <table class="preview-table">
+                                <thead id="previewHead"></thead>
+                                <tbody id="previewBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sample-actions"><button class="btn btn-secondary" id="useSample">使用示例数据</button><button class="btn btn-outline" id="downloadSample">下载示例 CSV</button></div>
+                <!-- Model Selection Section -->
+                <div class="model-section">
+                    <h2><i class="fas fa-cogs"></i> 模型选择与参数选择</h2>
+                    <div class="model-grid">
+                        <div class="model-card active" data-model="attnwgain">
+                            <div class="model-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>AttnWGAIN</h3>
+                            <p>推荐模型，结合自注意力机制和GAN</p>
+                        </div>
+                        <div class="model-card" data-model="transformer">
+                            <div class="model-icon">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <h3>Transformer</h3>
+                            <p>基于Transformer架构的填补模型</p>
+                        </div>
+                        <div class="model-card" data-model="rnn">
+                            <div class="model-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h3>RNN</h3>
+                            <p>循环神经网络填补模型</p>
+                        </div>
+                    </div>
+
+                    <div class="parameter-section">
+                        <div class="parameter-header" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                            <h3 style="margin: 0;">参数选择</h3>
+                            <button class="btn btn-outline" id="toggleAdvanced"><i class="fas fa-sliders-h"></i> 高级参数</button>
+                        </div>
+                        <div class="preset-grid">
+                            <div class="preset-card active" data-preset="duration">
+                                <div class="preset-icon"><i class="fas fa-clock"></i></div>
+                                <h4>时长时间序列</h4>
+                                <p>适合时间跨度长、趋势/季节性明显的数据</p>
+                                <ul class="preset-meta">
+                                    <li>批次大小：64</li>
+                                    <li>训练轮数：200</li>
+                                </ul>
+                            </div>
+                            <div class="preset-card" data-preset="multivariate">
+                                <div class="preset-icon"><i class="fas fa-project-diagram"></i></div>
+                                <h4>多特征序列</h4>
+                                <p>适合多变量传感器、强相关性场景</p>
+                                <ul class="preset-meta">
+                                    <li>批次大小：128</li>
+                                    <li>训练轮数：300</li>
+                                </ul>
+                            </div>
+                            <div class="preset-card" data-preset="high-missing">
+                                <div class="preset-icon"><i class="fas fa-percentage"></i></div>
+                                <h4>高缺失值序列</h4>
+                                <p>适合缺失比例高、间断严重的数据</p>
+                                <ul class="preset-meta">
+                                    <li>批次大小：64</li>
+                                    <li>训练轮数：300</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="parameter-hidden" style="display: none;">
+                        <div class="parameter-grid">
+                            <div class="parameter-item">
+                                <label for="missingRate">缺失率 (%)</label>
+                                <select id="missingRate" class="form-select">
+                                    <option value="10">10%</option>
+                                    <option value="20" selected>20%</option>
+                                    <option value="30">30%</option>
+                                    <option value="40">40%</option>
+                                    <option value="50">50%</option>
+                                </select>
+                            </div>
+                            <div class="parameter-item">
+                                <label for="batchSize">批次大小</label>
+                                <select id="batchSize" class="form-select">
+                                    <option value="32">32</option>
+                                    <option value="64" selected>64</option>
+                                    <option value="128">128</option>
+                                    <option value="256">256</option>
+                                </select>
+                            </div>
+                            <div class="parameter-item">
+                                <label for="epochs">训练轮数</label>
+                                <select id="epochs" class="form-select">
+                                    <option value="100">100</option>
+                                    <option value="200" selected>200</option>
+                                    <option value="300">300</option>
+                                    <option value="500">500</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Section -->
+                <div class="action-section">
+                    <button class="btn btn-primary btn-large" id="startImputation" disabled>
+                        <i class="fas fa-play"></i>
+                        开始填补
+                    </button>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-section" id="progressSection" style="display: none;">
+                    <h3><i class="fas fa-spinner fa-spin"></i> 正在处理...</h3>
+                    <div class="progress-bar" role="progressbar" aria-label="演示进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText" aria-live="polite">正在上传文件...</p>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section" id="resultsSection" style="display: none;">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>填补完成！</h3>
+                        <p>合成示例已生成，可以查看图表或下载示例结果。</p>
+                    </div>
+                    <div class="result-actions">
+                        <a href="results.html" class="btn btn-primary">
+                            <i class="fas fa-chart-line"></i>
+                            查看结果
+                        </a>
+                        <button class="btn btn-secondary" onclick="downloadResults()">
+                            <i class="fas fa-download"></i>
+                            下载结果
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>灵境织算</span>
+                    </div>
+                    <p>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络，为您的数据完整性保驾护航。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="upload.html">数据上传</a></li>
+                        <li><a href="results.html">结果展示</a></li>
+                        <li><a href="datasets.html">数据集市场</a></li>
+                        <li><a href="guide.html">使用指南</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-envelope"></i> support@lingjingzhisuan.com</p>
+                    <p><i class="fas fa-phone"></i> +86 13846030558</p>
+                </div>
+                <div class="footer-section">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 灵境织算. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/upload.js"></script>
+</body>
+</html> 

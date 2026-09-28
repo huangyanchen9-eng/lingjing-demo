@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">首页</a></li>
+                        <li><a href="upload.html" class="nav-link">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>灵境织算</span>
+                    </div>
+                    <h1>欢迎回来</h1>
+                    <p>登录您的账户，开始智能数据填补之旅</p>
+                </div>
+
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user"></i>
+                            用户名或邮箱
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            placeholder="请输入用户名或邮箱地址"
+                            autocomplete="username"
+                        >
+                        <div class="input-focus-border"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-lock"></i>
+                            密码
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                placeholder="请输入密码"
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="passwordIcon"></i>
+                            </button>
+                        </div>
+                        <div class="input-focus-border"></div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <span class="checkmark"></span>
+                            记住我
+                        </label>
+                        <a href="#" class="forgot-password">忘记密码？</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        登录
+                    </button>
+                </form>
+
+                <div class="login-divider">
+                    <span>或</span>
+                </div>
+
+                <div class="social-login">
+                    <button class="btn btn-social btn-google">
+                        <i class="fab fa-google"></i>
+                        使用 Google 登录
+                    </button>
+                    <button class="btn btn-social btn-github">
+                        <i class="fab fa-github"></i>
+                        使用 GitHub 登录
+                    </button>
+                </div>
+
+                <div class="login-footer">
+                    <p>还没有账户？ <a href="register.html" class="register-link">立即注册</a></p>
+                </div>
+            </div>
+
+            <div class="login-illustration">
+                <div class="illustration-content">
+                    <div class="floating-elements">
+                        <div class="floating-icon" style="--delay: 0s;">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="floating-icon" style="--delay: 1s;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="floating-icon" style="--delay: 2s;">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="floating-icon" style="--delay: 3s;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                    </div>
+                    <div class="illustration-text">
+                        <h2>智能数据填补</h2>
+                        <p>基于AI的先进技术，为您的数据完整性保驾护航</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>数赋灵序</span>
+                    </div>
+                    <p>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络，为您的数据完整性保驾护航。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="upload.html">数据上传</a></li>
+                        <li><a href="results.html">结果展示</a></li>
+                        <li><a href="datasets.html">数据集市场</a></li>
+                        <li><a href="guide.html">使用指南</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-envelope"></i> support@lingjingzhisuan.com</p>
+                    <p><i class="fas fa-phone"></i> +86 13846030558</p>
+                </div>
+                <div class="footer-section">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 灵境织算. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+    <!-- Firebase SDK (optional: enable real OAuth when config provided) -->
+    <script src="scripts/auth.config.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/login.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

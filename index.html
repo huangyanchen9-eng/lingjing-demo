@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link active">首页</a></li>
+                        <li><a href="upload.html" class="nav-link">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                        <li><a href="login.html" class="nav-link">登录</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="brand-name">灵境织算</span>
+                        <span class="main-title">基于注意力的多元时间序列</span>
+                        <span class="sub-title">Wasserstein</span>
+                        <span class="highlight">生成对抗插值网络</span>
+                    </h1>
+                    <p class="hero-description">
+                        融合自注意力与Wasserstein生成对抗网络，为多源时序数据打造自演化修复引擎。
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="upload.html" class="btn btn-primary">
+                            <i class="fas fa-upload"></i>
+                            开始使用
+                        </a>
+                        <a href="guide.html" class="btn btn-secondary">
+                            <i class="fas fa-book"></i>
+                            使用指南
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="iot-visualization">
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <i class="fas fa-brain"></i>
+                                <span>自注意力</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-robot"></i>
+                                <span>GAN网络</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-network-wired"></i>
+                                <span>结构感知</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span>集成学习</span>
+                            </div>
+                        </div>
+                        <div class="data-pipeline">
+                            <div class="pipeline-step">
+                                <div class="step-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <span>原始数据</span>
+                            </div>
+                            <div class="pipeline-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="pipeline-step">
+                                <div class="step-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <span>智能处理</span>
+                            </div>
+                            <div class="pipeline-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="pipeline-step">
+                                <div class="step-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <span>填补结果</span>
+                            </div>
+                        </div>
+                        <div class="performance-metrics">
+                            <div class="metric">
+                                <span class="metric-value">95%</span>
+                                <span class="metric-label">填补精度</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">10x</span>
+                                <span class="metric-label">速度提升</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">技术创新</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>自注意力机制</h3>
+                    <p>利用Transformer架构的自注意力机制，能够捕捉数据中的长期依赖关系和复杂模式。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>生成对抗网络</h3>
+                    <p>通过GAN技术生成高质量的数据，确保填补结果的真实性和准确性。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>结构感知</h3>
+                    <p>深度理解数据的内在结构和时间序列特征，提供更精确的填补结果。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>高精度预测</h3>
+                    <p>相比传统方法，在MAE、RMSE等指标上显著提升填补精度。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>集成学习</h3>
+                    <p>通过多模型协同与加权投票策略，将不同子模型的输出结果融合，显著提升整体鲁棒性与泛化能力，为缺失值填补提供更稳定的解决方案。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section class="applications">
+        <div class="container">
+            <h2 class="section-title">多场景应用</h2>
+            <p class="section-subtitle">灵境织算 在多个领域展现卓越的数据填补能力</p>
+            
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>工业制造</h3>
+                    <p>在传感器数据缺失时，智能填补生产线监控数据，确保设备运行状态连续监测，预防设备故障。</p>
+                    <div class="application-features">
+                        <span class="feature-tag">设备监控</span>
+                        <span class="feature-tag">预测维护</span>
+                        <span class="feature-tag">质量控制</span>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>环境监测</h3>
+                    <p>填补气象站、空气质量监测站等环境数据缺失，为环保决策和预警系统提供完整数据支撑。</p>
+                    <div class="application-features">
+                        <span class="feature-tag">气象预测</span>
+                        <span class="feature-tag">污染监测</span>
+                        <span class="feature-tag">生态保护</span>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>医疗健康</h3>
+                    <p>填补患者生命体征监测数据，确保医疗设备数据的连续性，为精准诊断和治疗提供支持。</p>
+                    <div class="application-features">
+                        <span class="feature-tag">生命体征</span>
+                        <span class="feature-tag">远程监护</span>
+                        <span class="feature-tag">智能诊断</span>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>智能交通</h3>
+                    <p>填补交通流量、车辆位置等数据缺失，优化交通信号控制，提升城市交通效率。</p>
+                    <div class="application-features">
+                        <span class="feature-tag">交通流量</span>
+                        <span class="feature-tag">信号优化</span>
+                        <span class="feature-tag">路径规划</span>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>智慧城市</h3>
+                    <p>填补城市基础设施监测数据，包括能源消耗、供水系统、垃圾处理等，实现城市智能化管理。</p>
+                    <div class="application-features">
+                        <span class="feature-tag">能源管理</span>
+                        <span class="feature-tag">基础设施</span>
+                        <span class="feature-tag">城市治理</span>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>金融科技</h3>
+                    <p>填补金融市场数据缺失，为风险评估、投资决策和算法交易提供完整的数据基础。</p>
+                    <div class="application-features">
+                        <span class="feature-tag">风险评估</span>
+                        <span class="feature-tag">投资分析</span>
+                        <span class="feature-tag">算法交易</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="applications-cta">
+                <h3>探索更多应用场景</h3>
+                <p>灵境织算 可以适应各种数据填补需求，为您的业务提供定制化解决方案</p>
+                <div class="cta-buttons">
+                    <a href="guide.html" class="btn btn-primary">查看详细指南</a>
+                    <a href="contact.html" class="btn btn-outline">咨询定制方案</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">填补精度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10x</div>
+                    <div class="stat-label">处理速度提升</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">支持数据类型</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">在线服务</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>灵境织算</span>
+                    </div>
+                    <p>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络，为您的数据完整性保驾护航。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="upload.html">数据上传</a></li>
+                        <li><a href="results.html">结果展示</a></li>
+                        <li><a href="datasets.html">数据集市场</a></li>
+                        <li><a href="guide.html">使用指南</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-envelope"></i> support@lingjingzhisuan.com</p>
+                    <p><i class="fas fa-phone"></i> +86 13846030558</p>
+                </div>
+                <div class="footer-section">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 灵境织算. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

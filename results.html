@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/results.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <script src="vendor/chart.umd.js"></script>
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">首页</a></li>
+                        <li><a href="upload.html" class="nav-link">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link active">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                        <li><a href="login.html" class="nav-link">登录</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>结果展示与评估</h1>
+                <p>查看填补结果，分析模型性能，对比不同方法的优劣</p>
+            </div>
+
+            <p id="runSummary" class="demo-run-summary"></p>
+            <!-- Summary Cards -->
+            <div class="summary-section">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>MAE</h3>
+                            <p class="summary-value">0.138</p>
+                            <p class="summary-label">平均绝对误差</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>RMSE</h3>
+                            <p class="summary-value">0.330</p>
+                            <p class="summary-label">均方根误差</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>MRE</h3>
+                            <p class="summary-value">19.6%</p>
+                            <p class="summary-label">相对误差</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>处理时间</h3>
+                            <p class="summary-value">45.2s</p>
+                            <p class="summary-label">演示流程时长</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Comparison Section -->
+            <div class="comparison-section">
+                <h2><i class="fas fa-table"></i> 数据对比</h2>
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>填补前后数据对比</h3>
+                        <div class="table-controls">
+                            <button class="btn btn-secondary" onclick="exportTable()">
+                                <i class="fas fa-download"></i>
+                                导出数据
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>时间戳</th>
+                                    <th>原始数据</th>
+                                    <th>填补数据</th>
+                                    <th>差异</th>
+                                    <th>状态</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTableBody">
+                                <!-- 数据将通过JavaScript动态填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage()">
+                            <i class="fas fa-chevron-left"></i>
+                            上一页
+                        </button>
+                        <span class="page-info">第 <span id="currentPage">1</span> 页，共 <span id="totalPages">10</span> 页</span>
+                        <button class="btn btn-secondary" onclick="nextPage()">
+                            下一页
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <h2><i class="fas fa-chart-area"></i> 图表分析</h2>
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>时间序列对比</h3>
+                        <canvas id="timeSeriesChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>误差分布</h3>
+                        <canvas id="errorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Comparison Section -->
+            <div class="model-comparison-section">
+                <h2><i class="fas fa-balance-scale"></i> 模型对比（预设演示指标）</h2>
+                <div class="comparison-table">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>模型</th>
+                                <th>MAE</th>
+                                <th>RMSE</th>
+                                <th>MRE (%)</th>
+                                <th>处理时间 (s)</th>
+                                <th>排名</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="best-model">
+                                <td><strong>灵境织算</strong></td>
+                                <td>0.138</td>
+                                <td>0.330</td>
+                                <td>19.6</td>
+                                <td>45.2</td>
+                                <td><span class="rank-badge">1</span></td>
+                            </tr>
+                            <tr>
+                                <td>SAITS</td>
+                                <td>0.143</td>
+                                <td>0.336</td>
+                                <td>20.3</td>
+                                <td>48.7</td>
+                                <td><span class="rank-badge">2</span></td>
+                            </tr>
+                            <tr>
+                                <td>Transformer</td>
+                                <td>0.168</td>
+                                <td>0.571</td>
+                                <td>23.3</td>
+                                <td>52.1</td>
+                                <td><span class="rank-badge">3</span></td>
+                            </tr>
+                            <tr>
+                                <td>BRITS</td>
+                                <td>0.159</td>
+                                <td>0.554</td>
+                                <td>22.6</td>
+                                <td>41.5</td>
+                                <td><span class="rank-badge">4</span></td>
+                            </tr>
+                            <tr>
+                                <td>GP-VAE</td>
+                                <td>0.302</td>
+                                <td>0.651</td>
+                                <td>42.0</td>
+                                <td>36.8</td>
+                                <td><span class="rank-badge">5</span></td>
+                            </tr>
+                            <tr>
+                                <td>M-RNN</td>
+                                <td>0.752</td>
+                                <td>1.124</td>
+                                <td>105.7</td>
+                                <td>33.4</td>
+                                <td><span class="rank-badge">6</span></td>
+                            </tr>
+                            <tr>
+                                <td>E²GAN</td>
+                                <td>0.766</td>
+                                <td>1.155</td>
+                                <td>108.1</td>
+                                <td>29.6</td>
+                                <td><span class="rank-badge">7</span></td>
+                            </tr>
+                            <tr>
+                                <td>GRUI-GAN</td>
+                                <td>0.948</td>
+                                <td>1.389</td>
+                                <td>129.1</td>
+                                <td>27.2</td>
+                                <td><span class="rank-badge">8</span></td>
+                            </tr>
+                            <tr>
+                                <td>Last</td>
+                                <td>0.761</td>
+                                <td>1.173</td>
+                                <td>107.2</td>
+                                <td>18.5</td>
+                                <td><span class="rank-badge">9</span></td>
+                            </tr>
+                            <tr>
+                                <td>Median</td>
+                                <td>0.761</td>
+                                <td>1.173</td>
+                                <td>107.2</td>
+                                <td>12.3</td>
+                                <td><span class="rank-badge">10</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Missing Rate Analysis -->
+            <div class="missing-rate-section">
+                <h2><i class="fas fa-chart-pie"></i> 不同缺失率下的性能分析</h2>
+                <div class="missing-rate-chart">
+                    <canvas id="missingRateChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-section">
+                <a href="upload.html" class="btn btn-primary">
+                    <i class="fas fa-upload"></i>
+                    处理新数据
+                </a>
+                <button class="btn btn-secondary" id="downloadReportBtn" type="button">
+                    <i class="fas fa-file-pdf"></i>
+                    下载报告
+                </button>
+                <a href="guide.html" class="btn btn-outline">
+                    <i class="fas fa-book"></i>
+                    查看技术文档
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>灵境织算</span>
+                    </div>
+                    <p>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络，为您的数据完整性保驾护航。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="upload.html">数据上传</a></li>
+                        <li><a href="results.html">结果展示</a></li>
+                        <li><a href="datasets.html">数据集市场</a></li>
+                        <li><a href="guide.html">使用指南</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-envelope"></i> support@lingjingzhisuan.com</p>
+                    <p><i class="fas fa-phone"></i> +86 13846030558</p>
+                </div>
+                <div class="footer-section">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 灵境织算. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/results.js"></script>
+</body>
+</html> 

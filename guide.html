@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/guide.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">首页</a></li>
+                        <li><a href="upload.html" class="nav-link">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link active">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                        <li><a href="login.html" class="nav-link">登录</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>使用指南与文档</h1>
+                <p>了解如何使用 灵境织算 系统，获取技术支持和文档</p>
+            </div>
+
+            <!-- Quick Start Section -->
+            <div class="quick-start-section">
+                <h2><i class="fas fa-rocket"></i> 快速开始</h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>上传数据</h3>
+                            <p>准备您的CSV或Excel格式的数据文件，确保数据包含时间戳和数值列。</p>
+                            <div class="step-image">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>选择模型</h3>
+                            <p>选择适合您数据的填补模型，推荐使用 灵境织算 模型获得最佳效果。</p>
+                            <div class="step-image">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>设置参数</h3>
+                            <p>根据您的数据特点设置缺失率、批次大小等参数。</p>
+                            <div class="step-image">
+                                <i class="fas fa-sliders-h"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>开始填补</h3>
+                            <p>点击开始按钮，系统将自动处理您的数据并生成填补结果。</p>
+                            <div class="step-image">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>查看结果</h3>
+                            <p>分析填补结果，下载处理后的数据文件或查看详细的评估报告。</p>
+                            <div class="step-image">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2><i class="fas fa-question-circle"></i> 常见问题</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>支持哪些数据格式？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>我们的平台目前支持主流的表格数据文件，包括 CSV (.csv) 和 Excel (.xlsx, .xls) 格式。用户只需上传相应的数据文件，系统即可自动解析并进入缺失值检测与修复环节。为了保证上传和处理的高效性，文件大小限制为 10MB，这一范围可以满足绝大部分物联网及常规时间序列数据的实验与应用需求。如果数据量过大，建议用户先进行拆分或采样，再上传至平台进行处理。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>如何处理缺失数据？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>当系统检测到数据中存在缺失值时，会自动调用我们自主研发的 灵境织算 智能修复模型。该模型结合了 自注意力机制 与 Wasserstein GAN 技术，能够捕捉时间序列的时序依赖和多变量之间的相关性，从而以生成式的方式对缺失部分进行智能填补。相比传统的均值填补或插值方法，灵境织算 更加灵活，能够在复杂的缺失模式下生成合理的估计值，显著提升数据的完整性和可解释性。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>填补需要多长时间？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>数据填补的耗时主要取决于文件大小、特征维度数量以及缺失比例。通常来说，对于常见的物联网传感器数据或空气质量监测数据，文件在几 MB 范围内时，系统能够在 几秒到数分钟 内完成智能修复。平台采用了高效的并行计算与模型推理机制，即使在较大规模的数据集上，也能保证较快的响应速度。对于用户而言，大多数情况下可以在短时间内获得填补结果，方便后续的数据分析和应用。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>如何选择最佳的模型参数？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>为了降低使用门槛，平台已经为用户预设了 经过反复实验调优的默认参数组合，适合大多数 IoT 时间序列数据场景。如果用户不熟悉模型细节，直接采用默认配置即可获得较优的修复效果。同时，平台也为高级用户提供了参数自定义入口，例如调整注意力头数、训练轮数、学习率或人工缺失率等，以适应不同数据集的特征分布和任务需求。这样既保证了易用性，也为有经验的用户提供了灵活性。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>如何评估填补质量？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>为了帮助用户直观判断修复效果，平台提供了多种 定量与定性评估工具。在定量方面，系统会自动计算并展示 MAE（平均绝对误差）、RMSE（均方根误差）、MRE（平均相对误差） 等常用指标，用于衡量填补值与真实观测值之间的偏差。在定性方面，平台提供了 可视化对比功能，用户可以通过折线图或热力图清晰地看到修复前后数据的差异，从而更好地理解模型的表现。这种“指标 + 图形”的双重反馈机制，有助于用户对数据质量有全面把握。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>数据安全如何保障？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>我们高度重视用户数据的隐私与安全。首先，所有上传的数据文件仅用于本次修复任务，不会被存储、共享或二次使用，从源头上避免信息泄露。其次，在数据传输过程中，我们采用 HTTPS 加密协议，确保数据在传输环节的安全性。此外，平台严格遵循行业标准的数据保护规范，并通过权限控制和日志监测，最大程度保障用户数据的安全与隐私。无论是科研数据还是行业应用数据，用户都可以放心使用我们的平台。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Documentation -->
+            <div class="tech-doc-section">
+                <h2><i class="fas fa-book"></i> 技术文档</h2>
+                <div class="doc-grid">
+                    <div class="doc-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3>算法原理</h3>
+                        <p>深入了解 灵境织算 模型的核心算法和理论基础。</p>
+                        <a href="#" class="btn btn-outline">阅读文档</a>
+                    </div>
+                    <div class="doc-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>API 文档</h3>
+                        <p>开发者接口文档，支持程序化调用和数据集成。</p>
+                        <a href="#" class="btn btn-outline">查看 API</a>
+                    </div>
+                    <div class="doc-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>性能基准</h3>
+                        <p>详细的性能测试报告和不同数据集上的表现对比。</p>
+                        <a href="#" class="btn btn-outline">查看报告</a>
+                    </div>
+                    <div class="doc-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>研究论文</h3>
+                        <p>相关的学术论文和技术研究成果。</p>
+                        <a href="#" class="btn btn-outline">下载论文</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Format Guide -->
+            <div class="format-guide-section">
+                <h2><i class="fas fa-table"></i> 数据格式指南</h2>
+                <div class="format-example">
+                    <h3>推荐的数据格式</h3>
+                    <div class="table-example">
+                        <table class="example-table">
+                            <thead>
+                                <tr>
+                                    <th>timestamp</th>
+                                    <th>temperature</th>
+                                    <th>humidity</th>
+                                    <th>pressure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-01-01 00:00:00</td>
+                                    <td>25.6</td>
+                                    <td>65.2</td>
+                                    <td>1013.25</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-01 00:01:00</td>
+                                    <td>25.8</td>
+                                    <td>64.8</td>
+                                    <td>1013.20</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-01 00:02:00</td>
+                                    <td>NaN</td>
+                                    <td>65.1</td>
+                                    <td>1013.18</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="format-tips">
+                        <h4>格式要求：</h4>
+                        <ul>
+                            <li>第一行应为列名（表头）</li>
+                            <li>时间戳列建议命名为 "timestamp" 或 "time"</li>
+                            <li>缺失值使用 NaN、空值或 -999 表示</li>
+                            <li>数值列应为数字格式</li>
+                            <li>时间戳格式：YYYY-MM-DD HH:MM:SS</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Section -->
+            <div class="support-section">
+                <h2><i class="fas fa-headset"></i> 技术支持</h2>
+                <div class="support-grid">
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>邮件支持</h3>
+                        <p>support@lingjingzhisuan.com</p>
+                        <p>通常在 24 小时内回复</p>
+                    </div>
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>在线客服</h3>
+                        <p>工作日 9:00-18:00</p>
+                        <p>实时在线支持</p>
+                    </div>
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub 社区</h3>
+                        <p>开源代码和讨论</p>
+                        <p>技术问题交流</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>灵境织算</span>
+                    </div>
+                    <p>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络，为您的数据完整性保驾护航。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="upload.html">数据上传</a></li>
+                        <li><a href="results.html">结果展示</a></li>
+                        <li><a href="datasets.html">数据集市场</a></li>
+                        <li><a href="guide.html">使用指南</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-envelope"></i> support@lingjingzhisuan.com</p>
+                    <p><i class="fas fa-phone"></i> +86 13846030558</p>
+                </div>
+                <div class="footer-section">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 灵境织算. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/guide.js"></script>
+</body>
+</html> 

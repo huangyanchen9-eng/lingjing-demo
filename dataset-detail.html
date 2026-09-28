@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵境织算 基于注意力的多元时间序列 Wasserstein 生成对抗插值网络</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/datasets.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" onclick="location.href='index.html'">
+                    <i class="fas fa-brain"></i>
+                    <span>灵境织算</span>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">首页</a></li>
+                        <li><a href="upload.html" class="nav-link">数据上传</a></li>
+                        <li><a href="results.html" class="nav-link">结果展示</a></li>
+                        <li><a href="datasets.html" class="nav-link active">数据集市场</a></li>
+                        <li><a href="guide.html" class="nav-link">使用指南</a></li>
+                        <li><a href="contact.html" class="nav-link">联系我们</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle" role="button" tabindex="0" aria-label="展开导航菜单" aria-expanded="false"><i class="fas fa-bars"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <div class="breadcrumb"><a href="datasets.html">数据集市场</a> <i class="fas fa-angle-right"></i> <span id="dsName">数据集详情</span></div>
+            <h1 id="title"></h1>
+            <div class="meta" id="meta"></div>
+            <div class="actions" style="margin-top: .6rem; gap: .6rem">
+                <button id="btnDownload" class="btn btn-primary"><i class="fas fa-download"></i> 下载</button>
+                <button id="btnImport" class="btn btn-secondary"><i class="fas fa-cloud-upload-alt"></i> 一键导入</button>
+                <button id="btnFav" class="btn"><i class="far fa-star"></i> 收藏</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" style="padding: 1rem 0 3rem">
+        <div class="tabs">
+            <button class="tab active" data-tab="overview">数据概览</button>
+            <button class="tab" data-tab="preview">数据预览</button>
+            <button class="tab" data-tab="cases">使用案例</button>
+            <button class="tab" data-tab="comments">评论区</button>
+            <button class="tab" data-tab="download">下载与使用说明</button>
+        </div>
+        <div id="tabContent" style="margin-top:1rem"></div>
+    </section>
+
+    <footer class="footer">
+        <div class="container"><div class="footer-bottom"><p>&copy; 2025 灵境织算.</p></div></div>
+    </footer>
+
+    <script src="scripts/demo.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/dataset-detail.js"></script>
+</body>
+</html>
+
+
